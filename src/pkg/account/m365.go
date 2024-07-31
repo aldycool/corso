@@ -16,7 +16,7 @@ const (
 	AzureTenantID = "AZURE_TENANT_ID"
 )
 
-var excludedM365ConfigFieldsForHashing = []string{"AzureClientSecret"}
+var excludedM365ConfigFieldsForHashing = []string{"AzureClientSecret", "AzureOnBehalfOfAssertion"}
 
 type M365Config struct {
 	credentials.M365 // requires: ClientID, ClientSecret
@@ -25,9 +25,10 @@ type M365Config struct {
 
 // config key consts
 const (
-	keyAzureClientID     = "azure_clientid"
-	keyAzureClientSecret = "azure_clientSecret"
-	keyAzureTenantID     = "azure_tenantid"
+	keyAzureClientID            = "azure_clientid"
+	keyAzureClientSecret        = "azure_clientSecret"
+	keyAzureOnBehalfOfAssertion = "azure_onBehalfOfAssertion"
+	keyAzureTenantID            = "azure_tenantid"
 )
 
 // StringConfig transforms a m365Config struct into a plain
@@ -35,9 +36,10 @@ const (
 // serialize into the map are expected to be strings.
 func (c M365Config) StringConfig() (map[string]string, error) {
 	cfg := map[string]string{
-		keyAzureClientID:     c.AzureClientID,
-		keyAzureClientSecret: c.AzureClientSecret,
-		keyAzureTenantID:     c.AzureTenantID,
+		keyAzureClientID:            c.AzureClientID,
+		keyAzureClientSecret:        c.AzureClientSecret,
+		keyAzureOnBehalfOfAssertion: c.AzureOnBehalfOfAssertion,
+		keyAzureTenantID:            c.AzureTenantID,
 	}
 
 	return cfg, c.validate()
@@ -69,6 +71,7 @@ func (a Account) M365Config() (M365Config, error) {
 	if len(a.Config) > 0 {
 		c.AzureClientID = a.Config[keyAzureClientID]
 		c.AzureClientSecret = a.Config[keyAzureClientSecret]
+		c.AzureOnBehalfOfAssertion = a.Config[keyAzureOnBehalfOfAssertion]
 		c.AzureTenantID = a.Config[keyAzureTenantID]
 	}
 

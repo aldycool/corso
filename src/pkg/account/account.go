@@ -22,10 +22,11 @@ var (
 
 const (
 	// M365 config
-	AccountProviderTypeKey = "account_provider"
-	AzureTenantIDKey       = "azure_tenantid"
-	AzureClientID          = "azure_client_id"
-	AzureSecret            = "azure_secret"
+	AccountProviderTypeKey   = "account_provider"
+	AzureTenantIDKey         = "azure_tenantid"
+	AzureClientID            = "azure_client_id"
+	AzureSecret              = "azure_secret"
+	AzureOnBehalfOfAssertion = "azure_on_behalf_of_assertion"
 )
 
 // Account defines an account provider, along with any credentials

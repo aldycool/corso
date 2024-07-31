@@ -18,6 +18,7 @@ func m365ConfigsFromViper(vpr *viper.Viper) (account.M365Config, error) {
 
 	m365.AzureClientID = vpr.GetString(account.AzureClientID)
 	m365.AzureClientSecret = vpr.GetString(account.AzureSecret)
+	m365.AzureOnBehalfOfAssertion = vpr.GetString(account.AzureOnBehalfOfAssertion)
 	m365.AzureTenantID = vpr.GetString(account.AzureTenantIDKey)
 
 	return m365, nil
@@ -109,9 +110,14 @@ func GetM365(m365Cfg account.M365Config) credentials.M365 {
 		flags.AzureClientSecretFV,
 		os.Getenv(credentials.AzureClientSecret),
 		m365Cfg.AzureClientSecret)
+	AzureOnBehalfOfAssertion := str.First(
+		flags.AzureOnBehalfOfAssertionFV,
+		os.Getenv(credentials.AzureOnBehalfOfAssertion),
+		m365Cfg.AzureOnBehalfOfAssertion)
 
 	return credentials.M365{
-		AzureClientID:     AzureClientID,
-		AzureClientSecret: AzureClientSecret,
+		AzureClientID:            AzureClientID,
+		AzureClientSecret:        AzureClientSecret,
+		AzureOnBehalfOfAssertion: AzureOnBehalfOfAssertion,
 	}
 }

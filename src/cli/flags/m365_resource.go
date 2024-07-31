@@ -7,18 +7,20 @@ import (
 )
 
 const (
-	UserFN              = "user"
-	MailBoxFN           = "mailbox"
-	AzureClientTenantFN = "azure-tenant-id"
-	AzureClientIDFN     = "azure-client-id"
-	AzureClientSecretFN = "azure-client-secret"
+	UserFN                     = "user"
+	MailBoxFN                  = "mailbox"
+	AzureClientTenantFN        = "azure-tenant-id"
+	AzureClientIDFN            = "azure-client-id"
+	AzureClientSecretFN        = "azure-client-secret"
+	AzureOnBehalfOfAssertionFN = "azure-on-behalf-of-assertion"
 )
 
 var (
-	UserFV              []string
-	AzureClientTenantFV string
-	AzureClientIDFV     string
-	AzureClientSecretFV string
+	UserFV                     []string
+	AzureClientTenantFV        string
+	AzureClientIDFV            string
+	AzureClientSecretFV        string
+	AzureOnBehalfOfAssertionFV string
 )
 
 // AddUserFlag adds the --user flag.
@@ -53,4 +55,5 @@ func AddAzureCredsFlags(cmd *cobra.Command) {
 	fs.StringVar(&AzureClientTenantFV, AzureClientTenantFN, "", "Azure tenant ID")
 	fs.StringVar(&AzureClientIDFV, AzureClientIDFN, "", "Azure app client ID")
 	fs.StringVar(&AzureClientSecretFV, AzureClientSecretFN, "", "Azure app client secret")
+	fs.StringVar(&AzureOnBehalfOfAssertionFV, AzureOnBehalfOfAssertionFN, "", "Azure On-Behalf-Of User Assertion (optional)")
 }
