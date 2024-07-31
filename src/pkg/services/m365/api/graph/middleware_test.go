@@ -104,7 +104,8 @@ func mockAdapter(
 	auth, err := GetAuth(
 		creds.AzureTenantID,
 		creds.AzureClientID,
-		creds.AzureClientSecret)
+		creds.AzureClientSecret,
+		creds.AzureOnBehalfOfAssertion)
 	if err != nil {
 		return nil, err
 	}

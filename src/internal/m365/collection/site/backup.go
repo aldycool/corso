@@ -100,6 +100,7 @@ func CollectPages(
 		creds.AzureTenantID,
 		creds.AzureClientID,
 		creds.AzureClientSecret,
+		creds.AzureOnBehalfOfAssertion,
 		counter)
 	if err != nil {
 		return nil, clues.Wrap(err, "creating azure client adapter")

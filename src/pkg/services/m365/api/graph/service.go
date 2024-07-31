@@ -103,11 +103,11 @@ func (s Service) Serialize(object serialization.Parsable) ([]byte, error) {
 // with Azure identity package. An adapter object is a necessary to component
 // to create a graph api client connection.
 func CreateAdapter(
-	tenant, client, secret string,
+	tenant, client, secret, assertion string,
 	counter *count.Bus,
 	opts ...Option,
 ) (abstractions.RequestAdapter, error) {
-	auth, err := GetAuth(tenant, client, secret)
+	auth, err := GetAuth(tenant, client, secret, assertion)
 	if err != nil {
 		return nil, err
 	}

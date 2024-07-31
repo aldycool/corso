@@ -30,6 +30,7 @@ func createTestBetaService(t *testing.T, credentials account.M365Config) *api.Be
 		credentials.AzureTenantID,
 		credentials.AzureClientID,
 		credentials.AzureClientSecret,
+		credentials.AzureOnBehalfOfAssertion,
 		count.New())
 	require.NoError(t, err, clues.ToCore(err))
 

@@ -13,18 +13,34 @@ import (
 	"github.com/alcionai/corso/src/pkg/account"
 )
 
-func GetAuth(tenant, client, secret string) (*kauth.AzureIdentityAuthenticationProvider, error) {
-	// Client Provider: Uses Secret for access to tenant-level data
-	cred, err := azidentity.NewClientSecretCredential(tenant, client, secret, nil)
-	if err != nil {
-		return nil, clues.Wrap(err, "creating m365 client identity")
-	}
+func GetAuth(tenant, client, secret, assertion string) (*kauth.AzureIdentityAuthenticationProvider, error) {
+	var auth *kauth.AzureIdentityAuthenticationProvider
+	var errAuth error
 
-	auth, err := kauth.NewAzureIdentityAuthenticationProviderWithScopes(
-		cred,
-		[]string{"https://graph.microsoft.com/.default"})
-	if err != nil {
-		return nil, clues.Wrap(err, "creating azure authentication")
+	if assertion == "" {
+		// Client Provider: Uses Secret for access to tenant-level data
+		cred, err := azidentity.NewClientSecretCredential(tenant, client, secret, nil)
+		if err != nil {
+			return nil, clues.Wrap(err, "creating m365 client identity")
+		}
+		auth, errAuth = kauth.NewAzureIdentityAuthenticationProviderWithScopes(
+			cred,
+			[]string{"https://graph.microsoft.com/.default"})
+		if errAuth != nil {
+			return nil, clues.Wrap(errAuth, "creating azure authentication")
+		}
+	} else {
+		// Client Provider: Uses previously obtained user's Access Token as an Assertion for On-Behalf-Of flow
+		cred, err := azidentity.NewOnBehalfOfCredentialWithSecret(tenant, client, assertion, secret, nil)
+		if err != nil {
+			return nil, clues.Wrap(err, "creating m365 client identity for on-behalf-of flow")
+		}
+		auth, errAuth = kauth.NewAzureIdentityAuthenticationProviderWithScopes(
+			cred,
+			[]string{"https://graph.microsoft.com/.default"})
+		if errAuth != nil {
+			return nil, clues.Wrap(errAuth, "creating azure authentication for on-behalf-of flow")
+		}
 	}
 
 	return auth, nil
@@ -63,7 +79,8 @@ func NewAzureAuth(creds account.M365Config) (*azureAuth, error) {
 	auth, err := GetAuth(
 		creds.AzureTenantID,
 		creds.AzureClientID,
-		creds.AzureClientSecret)
+		creds.AzureClientSecret,
+		creds.AzureOnBehalfOfAssertion)
 
 	return &azureAuth{auth}, clues.Stack(err).OrNil()
 }

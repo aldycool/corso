@@ -47,6 +47,7 @@ func (suite *BetaClientSuite) TestCreateBetaClient() {
 		suite.credentials.AzureTenantID,
 		suite.credentials.AzureClientID,
 		suite.credentials.AzureClientSecret,
+		suite.credentials.AzureOnBehalfOfAssertion,
 		count.New())
 
 	require.NoError(t, err, clues.ToCore(err))
@@ -69,6 +70,7 @@ func (suite *BetaClientSuite) TestBasicClientGetFunctionality() {
 		suite.credentials.AzureTenantID,
 		suite.credentials.AzureClientID,
 		suite.credentials.AzureClientSecret,
+		suite.credentials.AzureOnBehalfOfAssertion,
 		count.New())
 	require.NoError(t, err, clues.ToCore(err))
 
