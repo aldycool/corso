@@ -1,3 +1,6 @@
+> [!NOTE] 
+> **The Corso project is no longer actively maintained and has been archived**.
+
 <p align="center">
     <img src="https://github.com/alcionai/corso/blob/main/website/static/img/corso_logo.svg?raw=true" alt="Corso Logo" width="100" />
 </p>
