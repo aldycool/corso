@@ -18,7 +18,9 @@ func m365ConfigsFromViper(vpr *viper.Viper) (account.M365Config, error) {
 
 	m365.AzureClientID = vpr.GetString(account.AzureClientID)
 	m365.AzureClientSecret = vpr.GetString(account.AzureSecret)
-	m365.AzureOnBehalfOfAssertion = vpr.GetString(account.AzureOnBehalfOfAssertion)
+	m365.AzureOnBehalfOfRefreshToken = vpr.GetString(account.AzureOnBehalfOfRefreshToken)
+	m365.AzureOnBehalfOfServiceID = vpr.GetString(account.AzureOnBehalfOfServiceID)
+	m365.AzureOnBehalfOfServiceSecret = vpr.GetString(account.AzureOnBehalfOfServiceSecret)
 	m365.AzureTenantID = vpr.GetString(account.AzureTenantIDKey)
 
 	return m365, nil
@@ -110,14 +112,24 @@ func GetM365(m365Cfg account.M365Config) credentials.M365 {
 		flags.AzureClientSecretFV,
 		os.Getenv(credentials.AzureClientSecret),
 		m365Cfg.AzureClientSecret)
-	AzureOnBehalfOfAssertion := str.First(
-		flags.AzureOnBehalfOfAssertionFV,
-		os.Getenv(credentials.AzureOnBehalfOfAssertion),
-		m365Cfg.AzureOnBehalfOfAssertion)
+	AzureOnBehalfOfRefreshToken := str.First(
+		flags.AzureOnBehalfOfRefreshTokenFV,
+		os.Getenv(credentials.AzureOnBehalfOfRefreshToken),
+		m365Cfg.AzureOnBehalfOfRefreshToken)
+	AzureOnBehalfOfServiceID := str.First(
+		flags.AzureOnBehalfOfServiceIDFV,
+		os.Getenv(credentials.AzureOnBehalfOfServiceID),
+		m365Cfg.AzureOnBehalfOfServiceID)
+	AzureOnBehalfOfServiceSecret := str.First(
+		flags.AzureOnBehalfOfServiceSecretFV,
+		os.Getenv(credentials.AzureOnBehalfOfServiceSecret),
+		m365Cfg.AzureOnBehalfOfServiceSecret)
 
 	return credentials.M365{
-		AzureClientID:            AzureClientID,
-		AzureClientSecret:        AzureClientSecret,
-		AzureOnBehalfOfAssertion: AzureOnBehalfOfAssertion,
+		AzureClientID:                AzureClientID,
+		AzureClientSecret:            AzureClientSecret,
+		AzureOnBehalfOfRefreshToken:  AzureOnBehalfOfRefreshToken,
+		AzureOnBehalfOfServiceID:     AzureOnBehalfOfServiceID,
+		AzureOnBehalfOfServiceSecret: AzureOnBehalfOfServiceSecret,
 	}
 }

@@ -178,7 +178,9 @@ func (suite *GraphIntgSuite) TestCreateAdapter() {
 		suite.fakeCredentials.AzureTenantID,
 		suite.fakeCredentials.AzureClientID,
 		suite.fakeCredentials.AzureClientSecret,
-		suite.fakeCredentials.AzureOnBehalfOfAssertion,
+		suite.fakeCredentials.AzureOnBehalfOfRefreshToken,
+		suite.fakeCredentials.AzureOnBehalfOfServiceID,
+		suite.fakeCredentials.AzureOnBehalfOfServiceSecret,
 		count.New())
 
 	assert.NoError(t, err, clues.ToCore(err))
@@ -280,7 +282,9 @@ func (suite *GraphIntgSuite) TestSerializationEndPoint() {
 		suite.fakeCredentials.AzureTenantID,
 		suite.fakeCredentials.AzureClientID,
 		suite.fakeCredentials.AzureClientSecret,
-		suite.fakeCredentials.AzureOnBehalfOfAssertion,
+		suite.fakeCredentials.AzureOnBehalfOfRefreshToken,
+		suite.fakeCredentials.AzureOnBehalfOfServiceID,
+		suite.fakeCredentials.AzureOnBehalfOfServiceSecret,
 		count.New())
 	require.NoError(t, err, clues.ToCore(err))
 
@@ -314,7 +318,9 @@ func (suite *GraphIntgSuite) TestAdapterWrap_catchesPanic() {
 		suite.credentials.AzureTenantID,
 		suite.credentials.AzureClientID,
 		suite.credentials.AzureClientSecret,
-		suite.credentials.AzureOnBehalfOfAssertion,
+		suite.credentials.AzureOnBehalfOfRefreshToken,
+		suite.credentials.AzureOnBehalfOfServiceID,
+		suite.credentials.AzureOnBehalfOfServiceSecret,
 		count.New(),
 		appendMiddleware(&alwaysPanicMiddleware))
 	require.NoError(t, err, clues.ToCore(err))
@@ -402,7 +408,9 @@ func (suite *GraphIntgSuite) TestAdapterWrap_retriesConnectionInterruptions() {
 				suite.credentials.AzureTenantID,
 				suite.credentials.AzureClientID,
 				suite.credentials.AzureClientSecret,
-				suite.credentials.AzureOnBehalfOfAssertion,
+				suite.credentials.AzureOnBehalfOfRefreshToken,
+				suite.credentials.AzureOnBehalfOfServiceID,
+				suite.credentials.AzureOnBehalfOfServiceSecret,
 				count.New(),
 				appendMiddleware(&forceErrMW),
 				// Configure retry middlewares so that they don't retry on connection reset.
@@ -463,7 +471,9 @@ func (suite *GraphIntgSuite) TestAdapterWrap_retriesBadJWTToken() {
 		suite.credentials.AzureTenantID,
 		suite.credentials.AzureClientID,
 		suite.credentials.AzureClientSecret,
-		suite.credentials.AzureOnBehalfOfAssertion,
+		suite.credentials.AzureOnBehalfOfRefreshToken,
+		suite.credentials.AzureOnBehalfOfServiceID,
+		suite.credentials.AzureOnBehalfOfServiceSecret,
 		count.New(),
 		appendMiddleware(&alwaysBadJWT))
 	require.NoError(t, err, clues.ToCore(err))
@@ -542,7 +552,9 @@ func (suite *GraphIntgSuite) TestAdapterWrap_retriesInvalidRequest() {
 		suite.credentials.AzureTenantID,
 		suite.credentials.AzureClientID,
 		suite.credentials.AzureClientSecret,
-		suite.credentials.AzureOnBehalfOfAssertion,
+		suite.credentials.AzureOnBehalfOfRefreshToken,
+		suite.credentials.AzureOnBehalfOfServiceID,
+		suite.credentials.AzureOnBehalfOfServiceSecret,
 		count.New(),
 		appendMiddleware(&returnsGraphResp))
 	require.NoError(t, err, clues.ToCore(err))

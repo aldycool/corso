@@ -117,7 +117,9 @@ func NewService(
 		creds.AzureTenantID,
 		creds.AzureClientID,
 		creds.AzureClientSecret,
-		creds.AzureOnBehalfOfAssertion,
+		creds.AzureOnBehalfOfRefreshToken,
+		creds.AzureOnBehalfOfServiceID,
+		creds.AzureOnBehalfOfServiceSecret,
 		counter,
 		opts...)
 	if err != nil {

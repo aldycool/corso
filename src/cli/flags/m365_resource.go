@@ -7,20 +7,24 @@ import (
 )
 
 const (
-	UserFN                     = "user"
-	MailBoxFN                  = "mailbox"
-	AzureClientTenantFN        = "azure-tenant-id"
-	AzureClientIDFN            = "azure-client-id"
-	AzureClientSecretFN        = "azure-client-secret"
-	AzureOnBehalfOfAssertionFN = "azure-on-behalf-of-assertion"
+	UserFN                         = "user"
+	MailBoxFN                      = "mailbox"
+	AzureClientTenantFN            = "azure-tenant-id"
+	AzureClientIDFN                = "azure-client-id"
+	AzureClientSecretFN            = "azure-client-secret"
+	AzureOnBehalfOfRefreshTokenFN  = "azure-on-behalf-of-refresh-token"
+	AzureOnBehalfOfServiceIDFN     = "azure-on-behalf-of-service-id"
+	AzureOnBehalfOfServiceSecretFN = "azure-on-behalf-of-service-secret"
 )
 
 var (
-	UserFV                     []string
-	AzureClientTenantFV        string
-	AzureClientIDFV            string
-	AzureClientSecretFV        string
-	AzureOnBehalfOfAssertionFV string
+	UserFV                         []string
+	AzureClientTenantFV            string
+	AzureClientIDFV                string
+	AzureClientSecretFV            string
+	AzureOnBehalfOfRefreshTokenFV  string
+	AzureOnBehalfOfServiceIDFV     string
+	AzureOnBehalfOfServiceSecretFV string
 )
 
 // AddUserFlag adds the --user flag.
@@ -55,5 +59,7 @@ func AddAzureCredsFlags(cmd *cobra.Command) {
 	fs.StringVar(&AzureClientTenantFV, AzureClientTenantFN, "", "Azure tenant ID")
 	fs.StringVar(&AzureClientIDFV, AzureClientIDFN, "", "Azure app client ID")
 	fs.StringVar(&AzureClientSecretFV, AzureClientSecretFN, "", "Azure app client secret")
-	fs.StringVar(&AzureOnBehalfOfAssertionFV, AzureOnBehalfOfAssertionFN, "", "Azure On-Behalf-Of User Assertion (optional)")
+	fs.StringVar(&AzureOnBehalfOfRefreshTokenFV, AzureOnBehalfOfRefreshTokenFN, "", "Azure On-Behalf-Of Refresh Token")
+	fs.StringVar(&AzureOnBehalfOfServiceIDFV, AzureOnBehalfOfServiceIDFN, "", "Azure On-Behalf-Of Service ID")
+	fs.StringVar(&AzureOnBehalfOfServiceSecretFV, AzureOnBehalfOfServiceSecretFN, "", "Azure On-Behalf-Of Service Secret")
 }

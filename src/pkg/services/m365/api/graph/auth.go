@@ -13,11 +13,11 @@ import (
 	"github.com/alcionai/corso/src/pkg/account"
 )
 
-func GetAuth(tenant, client, secret, assertion string) (*kauth.AzureIdentityAuthenticationProvider, error) {
+func GetAuth(tenant, client, secret, oboRefreshToken, oboServiceId, oboServiceSecret string) (*kauth.AzureIdentityAuthenticationProvider, error) {
 	var auth *kauth.AzureIdentityAuthenticationProvider
 	var errAuth error
 
-	if assertion == "" {
+	if oboRefreshToken == "" {
 		// Client Provider: Uses Secret for access to tenant-level data
 		cred, err := azidentity.NewClientSecretCredential(tenant, client, secret, nil)
 		if err != nil {
@@ -30,11 +30,8 @@ func GetAuth(tenant, client, secret, assertion string) (*kauth.AzureIdentityAuth
 			return nil, clues.Wrap(errAuth, "creating azure authentication")
 		}
 	} else {
-		// Client Provider: Uses previously obtained user's Access Token as an Assertion for On-Behalf-Of flow
-		cred, err := azidentity.NewOnBehalfOfCredentialWithSecret(tenant, client, assertion, secret, nil)
-		if err != nil {
-			return nil, clues.Wrap(err, "creating m365 client identity for on-behalf-of flow")
-		}
+		// Client Provider: Assuming that assertion is the User's Refresh Token to be used for On-Behalf-Of flow
+		cred := NewCustomOnBehalfOfCredential(tenant, client, secret, oboRefreshToken, oboServiceId, oboServiceSecret)
 		auth, errAuth = kauth.NewAzureIdentityAuthenticationProviderWithScopes(
 			cred,
 			[]string{"https://graph.microsoft.com/.default"})
@@ -80,7 +77,9 @@ func NewAzureAuth(creds account.M365Config) (*azureAuth, error) {
 		creds.AzureTenantID,
 		creds.AzureClientID,
 		creds.AzureClientSecret,
-		creds.AzureOnBehalfOfAssertion)
+		creds.AzureOnBehalfOfRefreshToken,
+		creds.AzureOnBehalfOfServiceID,
+		creds.AzureOnBehalfOfServiceSecret)
 
 	return &azureAuth{auth}, clues.Stack(err).OrNil()
 }

@@ -8,16 +8,20 @@ import (
 
 // envvar consts
 const (
-	AzureClientID            = "AZURE_CLIENT_ID"
-	AzureClientSecret        = "AZURE_CLIENT_SECRET"
-	AzureOnBehalfOfAssertion = "AZURE_ON_BEHALF_OF_ASSERTION"
+	AzureClientID                = "AZURE_CLIENT_ID"
+	AzureClientSecret            = "AZURE_CLIENT_SECRET"
+	AzureOnBehalfOfRefreshToken  = "AZURE_ON_BEHALF_OF_REFRESH_TOKEN"
+	AzureOnBehalfOfServiceID     = "AZURE_ON_BEHALF_OF_SERVICE_ID"
+	AzureOnBehalfOfServiceSecret = "AZURE_ON_BEHALF_OF_SERVICE_SECRET"
 )
 
 // M365 aggregates m365 credentials from flag and env_var values.
 type M365 struct {
-	AzureClientID            string
-	AzureClientSecret        string
-	AzureOnBehalfOfAssertion string
+	AzureClientID                string
+	AzureClientSecret            string
+	AzureOnBehalfOfRefreshToken  string
+	AzureOnBehalfOfServiceID     string
+	AzureOnBehalfOfServiceSecret string
 }
 
 // M365 is a helper for aggregating m365 secrets and credentials.
@@ -26,12 +30,16 @@ func GetM365() M365 {
 	// var AzureClientID, AzureClientSecret string
 	AzureClientID := os.Getenv(AzureClientID)
 	AzureClientSecret := os.Getenv(AzureClientSecret)
-	AzureOnBehalfOfAssertion := os.Getenv(AzureOnBehalfOfAssertion)
+	AzureOnBehalfOfRefreshToken := os.Getenv(AzureOnBehalfOfRefreshToken)
+	AzureOnBehalfOfServiceID := os.Getenv(AzureOnBehalfOfServiceID)
+	AzureOnBehalfOfServiceSecret := os.Getenv(AzureOnBehalfOfServiceSecret)
 
 	return M365{
-		AzureClientID:            AzureClientID,
-		AzureClientSecret:        AzureClientSecret,
-		AzureOnBehalfOfAssertion: AzureOnBehalfOfAssertion,
+		AzureClientID:                AzureClientID,
+		AzureClientSecret:            AzureClientSecret,
+		AzureOnBehalfOfRefreshToken:  AzureOnBehalfOfRefreshToken,
+		AzureOnBehalfOfServiceID:     AzureOnBehalfOfServiceID,
+		AzureOnBehalfOfServiceSecret: AzureOnBehalfOfServiceSecret,
 	}
 }
 

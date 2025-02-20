@@ -33,7 +33,9 @@ func (suite *BetaUnitSuite) TestBetaService_Adapter() {
 		m365.AzureTenantID,
 		m365.AzureClientID,
 		m365.AzureClientSecret,
-		m365.AzureOnBehalfOfAssertion,
+		m365.AzureOnBehalfOfRefreshToken,
+		m365.AzureOnBehalfOfServiceID,
+		m365.AzureOnBehalfOfServiceSecret,
 		count.New())
 	require.NoError(t, err, clues.ToCore(err))
 
